@@ -5,4 +5,5 @@ Hi All, Hope the below-mentioned steps will help you to set up the tableau Serve
 3. Delete the Historical file (Older than 4 days) to save the space
 4. Send a completion mail to intended audience.
 
+Note: Please make sure you have Folder name "Server_Backup" created under "D" drive. You can change the location based on your feasibility.
 Save the script named as Server_Backup.ps1 (Powershell script) and scheduled it to run during off-peak hours
