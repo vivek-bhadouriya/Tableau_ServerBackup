@@ -45,9 +45,15 @@ $Olddatestr=(Get-Date).AddDays(-4).ToString('yyyy-MM-dd')
 
 
 # Delete Old Backup
-$filename="Daily_backup-$Olddatestr.tsbak"
-Write-host $filename
-Remove-item -path "D:\Server_Backup\$Oldfilename" 
+$Oldfilename="Daily_backup-$Olddatestr.tsbak"
+# Chcek if Folder is exist
+
+if (Test-Path $Oldfilename -PathType leaf)
+	Write-host $filename
+	Remove-item -path "D:\Server_Backup\$Oldfilename"
+else
+	("Files doed not exist")
+	$Body += “Old file did not exist, please review the folder for more details.” 
 
 
 # Send a mail informing Server Back is completed
