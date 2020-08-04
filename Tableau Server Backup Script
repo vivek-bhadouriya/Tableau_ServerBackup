@@ -1,11 +1,10 @@
-# Hi All, Hope the below mentioned steps will help you to setup the tableau Server Back up and HOuse cleaning activity
-# I am using the below code to 
-# 1. Take Daily Backup
+# Hi All, Hope the below mentioned steps will help you to setup the tableau Server Back up and House Keeping activity. Below mentioned code will help you to:
+# 1. Collect and save Daily Backup
 # 2. Store a copy of the backup file to Network location (another Server)
-# 3. Delete the Historical file (Older than 4 days) to save the space
-# 4. Saveed the script named as as Server_Backup.ps1 (Powershell script) and scheduled it to run during Off-peak hours
-
-# Note: I have installed the Backup under "C" drive, please updat the location if you saved it under different location. My backup file storage location is: C:\Tableau\Tableau Server\data\tabsvc\files\backups\
+# 3. Delete the Historical file (Older than 4 days), to save the space on current drive/system
+# 4. Save the script named as as Server_Backup.ps1 (Powershell script) and scheduled it using Task scheduler to run during Off-peak hours
+# Please make sure you have Folder name "Server_Backup" created under "D" drive. You can change the location based on your feasibility.
+# Note: I have installed the Backup under "C" drive, please updat the location if you saved it under different location. My backup file storage location is: C:\Tableau\Tableau Server\data\tabsvc\files\backups\"
 
 # Colelct Datetime to add in File name
 $ydatestr=(Get-Date).AddDays(-1).ToString('yyyy-MM-dd')
@@ -29,11 +28,12 @@ tsm maintenance backup --file Daily_backup -d
 # Update the file name
 $filename="Daily_backup-$datestr.tsbak"
 Write-host $filename
-# Move File to new Server for backup <Server_NAme>, You can skip the below code incase you don't have a backup path available to save the data
+# Move File to new Server for backup <Server_NAme>, You can skip the below code incase you don't have a backup path available to save the data.
+# If you have a network drive, you can copy the data to that location for DR purpose
 Move-Item "C:\Tableau\Tableau Server\data\tabsvc\files\backups\$filename" -Destination "\\<Server_Path>\D$\Server_Backup\"
 
 
-# Delete yesterday's Backup to free up space in your current drive. You can skip this command in case you have enought space available in your Computer drive.
+# Delete yesterday's Backup to free up space in your current drive. You can skip this command in case you have enough space available in your Computer drive.
 $yfilename="Daily_backup-$ydatestr.tsbak"
 Write-host $yfilename
 Remove-item -path "C:\Tableau\Tableau Server\data\tabsvc\files\backups\$yfilename"
